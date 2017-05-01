@@ -1,0 +1,27 @@
+{
+  "name": "koa-sever",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TerryChenUI/koa-sever.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TerryChenUI/koa-sever/issues"
+  },
+  "homepage": "https://github.com/TerryChenUI/koa-sever#readme",
+  "dependencies": {
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.1.1",
+    "mongoose": "^4.9.6",
+    "mongoose-auto-increment": "^5.0.1",
+    "mongoose-paginate": "^5.0.3"
+  }
+}
