@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const setting = require('./config/setting.js');
 
-exports.mongoose = mongoose;
-
 exports.connect = () => {
     mongoose.Promise = global.Promise;
     

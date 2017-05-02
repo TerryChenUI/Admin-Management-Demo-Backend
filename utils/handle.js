@@ -5,7 +5,7 @@
 //     support || res.status(405).jsonp({ code: 0, message: '不支持该请求类型！' });
 // };
 
-exports.handlePagination = (data, page, limit) => {
+exports.getPagination = (data, page, limit) => {
     return {
         pagination: {
             currentPage: page,
@@ -18,9 +18,9 @@ exports.handlePagination = (data, page, limit) => {
 };
 
 exports.handleSuccess = ({ ctx, result = null, message = '请求成功' }) => {
-    ctx.body = { code: 200, result, message };
+    ctx.body = { result, message, code: 1 };
 };
 
 exports.handleError = ({ ctx, error = null, message = '请求失败' }) => {
-    ctx.body = { code: 500, message, error };
+    ctx.body = { message, error, code: 0 };
 };

@@ -1,4 +1,4 @@
-const mongoose = require('../mongodb').mongoose;
+const mongoose = require('mongoose');
 const autoIncrement = require('mongoose-auto-increment');
 const mongoosePaginate = require('mongoose-paginate');
 
@@ -8,13 +8,13 @@ const tagSchema = new mongoose.Schema({
   name: { type: String, required: true, validate: /\S+/ },
   slug: { type: String, required: true, validate: /\S+/ },
   description: String,
-  displayOrder: { type: Number, default: 1 },
-  enabled: { type: Boolean, default: false },
+  displayOrder: { type: Number, required: true, default: 1 },
+  enabled: { type: Boolean, required: true },
   create: { type: Date, default: Date.now },
   update: { type: Date }
 });
 
-tagSchema.plugin(mongoosePaginate)
+tagSchema.plugin(mongoosePaginate);
 tagSchema.plugin(autoIncrement.plugin, {
   model: 'Tag',
   field: 'id',
