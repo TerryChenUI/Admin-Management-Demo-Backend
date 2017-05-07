@@ -13,8 +13,8 @@ const categorySchema = new mongoose.Schema({
   description: String,
   // 排序
   displayOrder: { type: Number, required: true, default: 1 },
-  // 状态
-  enabled: { type: Boolean, required: true, default: false },
+  // 可见
+  visible: { type: Boolean, required: true, default: false },
   // 创建时间
   create_time: { type: Date, default: Date.now },
   // 更新时间
