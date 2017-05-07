@@ -7,6 +7,7 @@ const config = require('./config');
 
 // routes 
 const tag = require('./routes/tag');
+const category = require('./routes/category');
 
 // connect mongodb
 mongodb.connect();
@@ -15,6 +16,7 @@ const app = new Koa();
 app.use(bodyParser());
  
 router.use('/api/tags', tag.routes(), tag.allowedMethods());
+router.use('/api/categories', category.routes(), category.allowedMethods());
 
 app.use(router.routes()).use(router.allowedMethods());
 

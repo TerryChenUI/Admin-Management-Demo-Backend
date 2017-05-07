@@ -3,7 +3,7 @@ const Tag = require('../models/tag');
 const { getPagination, handleSuccess, handleError } = require('../utils/handle');
 
 router.get('/', async (ctx, next) => {
-    const { enabled, keyword = '', currentPage = 1, perPage = 10 } = ctx.query;
+    const { keyword, enabled, currentPage = 1, perPage = 10 } = ctx.query;
 
     const options = {
         sort: { _id: -1 },
@@ -11,19 +11,19 @@ router.get('/', async (ctx, next) => {
         limit: Number(perPage)
     };
 
-    const keywordReg = new RegExp(keyword);
-    const query = {
-        $or: [
+    const query = {};
+
+    if (keyword) {
+        const keywordReg = new RegExp(keyword);
+        query['$or'] = [
             { name: keywordReg },
             { slug: keywordReg },
             { description: keywordReg }
-        ],
-    };
+        ];
+    }
 
-    if (enabled !== undefined) {
-        query.$and = [
-            { enabled: enabled === 'true' }
-        ]
+    if (enabled) {
+        query.enabled = enabled === 'true';
     }
 
     await Tag.paginate(query, options)
@@ -46,9 +46,9 @@ router.post('/', async (ctx, next) => {
     const tag = ctx.request.body;
     await Tag(tag).save()
         .then((result) => {
-            handleSuccess({ ctx, result, message: '标签发布成功' });
+            handleSuccess({ ctx, result, message: '标签新增成功' });
         })
-        .catch(error => handleError({ ctx, error, message: '标签发布失败' }));
+        .catch(error => handleError({ ctx, error, message: '标签新增失败' }));
 });
 
 router.put('/:id', async (ctx, next) => {
