@@ -1,10 +1,9 @@
 exports.getPagination = (data, page, limit) => {
     return {
         pagination: {
-            currentPage: page,
-            perPage: limit,
-            total: data.total,
-            totalPage: data.pages
+            current: page,
+            pageSize: limit,
+            total: data.total
         },
         data: data.docs
     }
