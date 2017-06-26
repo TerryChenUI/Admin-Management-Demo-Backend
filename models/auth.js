@@ -13,6 +13,7 @@ const authSchema = new mongoose.Schema({
     type: String,
     default: crypto.createHash('md5').update(setting.defaultPassword).digest('hex')
   },
+  slogan: { type: String, default: '' },
   // 创建时间
   create_time: { type: Date, default: Date.now },
   // 更新时间

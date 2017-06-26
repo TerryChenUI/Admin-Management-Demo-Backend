@@ -14,6 +14,6 @@ exports.connect = () => {
     mongoose.connection.on('error', function (error) {
         console.log('fail to connect mongodb', error);
     });
-    
+
     return mongoose;
 };
