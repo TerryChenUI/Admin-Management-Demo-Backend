@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-const Category = require('../models/category');
+const Category = require('../models/category-model');
 const { getPagination, handleSuccess, handleError } = require('../utils/handle');
 
 router

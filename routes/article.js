@@ -1,9 +1,9 @@
 const router = require('koa-router')();
-const Article = require('../models/article');
+const Article = require('../models/article-model');
 const { getPagination, handleSuccess, handleError } = require('../utils/handle');
 
 router.get('/', async (ctx, next) => {
-    const { keyword, category, tag, state, currentPage = 1, perPage = 10 } = ctx.query;
+    const { keyword, categories, tags, state, currentPage = 1, perPage = 10 } = ctx.query;
 
     const options = {
         sort: { _id: -1 },
@@ -16,31 +16,31 @@ router.get('/', async (ctx, next) => {
     if (keyword) {
         const keywordReg = new RegExp(keyword);
         query['$or'] = [
-            { name: keywordReg },
+            { title: keywordReg },
             { description: keywordReg },
-            { content: keywordReg },
+            { content: keywordReg }
         ];
     }
 
-    if (tag) {
-        query.tag = tag;
+    if (tags) {
+        query.tags = tags;
     };
 
-    if (category) {
-        query.category = category;
+    if (categories) {
+        query.categories = categories;
     };
 
     if (['0', '1', '2'].includes(state)) {
         query.state = state;
     };
-    
+
     await Article.paginate(query, options)
         .then((articles) => {
             handleSuccess({ ctx, result: getPagination(articles, options.page, options.limit), message: '文章列表获取成功' });
         })
         .catch((err) => {
             handleError({ ctx, err, message: '文章列表获取失败' });
-        })
+        });
 });
 
 router.get('/:id', async (ctx, next) => {

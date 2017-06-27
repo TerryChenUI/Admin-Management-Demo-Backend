@@ -1,5 +1,5 @@
 const router = require('koa-router')();
-const Tag = require('../models/tag');
+const Tag = require('../models/tag-model');
 const { getPagination, handleSuccess, handleError } = require('../utils/handle');
 
 router

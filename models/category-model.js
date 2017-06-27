@@ -23,6 +23,8 @@ const categorySchema = new mongoose.Schema({
   pid: { type: mongoose.Schema.Types.ObjectId, ref: 'Category', default: null },
 });
 
+categorySchema.set('toObject', { getters: true });
+
 categorySchema.plugin(mongoosePaginate);
 categorySchema.plugin(autoIncrement.plugin, {
   model: 'Category',
