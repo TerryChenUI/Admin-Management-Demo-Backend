@@ -30,7 +30,7 @@ router.get('/', async (ctx, next) => {
         query.category = category;
     };
 
-    if (['0', '1', '-1'].includes(state)) {
+    if (['0', '1', '2'].includes(state)) {
         query.state = state;
     };
     

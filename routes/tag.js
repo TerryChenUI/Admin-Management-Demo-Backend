@@ -4,7 +4,7 @@ const { getPagination, handleSuccess, handleError } = require('../utils/handle')
 
 router
     .get('/', async (ctx, next) => {
-        const { keyword, enabled, currentPage = 1, perPage = 10 } = ctx.query;
+        const { keyword, visible, currentPage = 1, perPage = 10 } = ctx.query;
 
         const options = {
             sort: { _id: -1 },
@@ -23,8 +23,8 @@ router
             ];
         }
 
-        if (enabled) {
-            query.enabled = enabled === 'true';
+        if (visible) {
+            query.visible = visible === "1";
         }
 
         await Tag.paginate(query, options)
@@ -33,6 +33,15 @@ router
             })
             .catch((err) => {
                 handleError({ ctx, err, message: '标签列表获取失败' });
+            })
+    })
+    .get('/checkexist', async (ctx, next) => {
+        await Tag.find(ctx.query)
+            .then(({ length }) => {
+                length ? handleError({ ctx, message: 'slug已被使用' }) : handleSuccess({ ctx, message: 'slug可使用' });
+            })
+            .catch((err) => {
+                handleError({ ctx, err, message: '检查slug唯一失败' });
             })
     })
     .get('/:id', async (ctx, next) => {
@@ -64,5 +73,5 @@ router
             })
             .catch(error => handleError({ ctx, error, message: '标签删除失败' }));
     });
-    
+
 module.exports = router;

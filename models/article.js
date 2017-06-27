@@ -19,7 +19,7 @@ const articleSchema = new mongoose.Schema({
   thumb: String,
   // 文章内容
   content: { type: String, required: true, validate: /\S+/ },
-  // 文章发布状态 => -1回收站，0草稿，1已发布
+  // 文章发布状态 => 0草稿，1已发布，2回收站
   state: { type: Number, default: 1 },
   // 发布时间
   create_time: { type: Date, default: Date.now },
