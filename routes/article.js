@@ -23,11 +23,11 @@ router.get('/', async (ctx, next) => {
     }
 
     if (tags) {
-        query.tags = tags;
+        query.tags = tags.split(',');
     };
 
     if (categories) {
-        query.categories = categories;
+        query.categories = categories.split(',');
     };
 
     if (['0', '1', '2'].includes(state)) {
