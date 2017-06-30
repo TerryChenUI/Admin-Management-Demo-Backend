@@ -3,6 +3,7 @@ const router = require('koa-router')();
 const article = require('./routes/article');
 const category = require('./routes/category');
 const tag = require('./routes/tag');
+const upload = require('./routes/upload');
 const authIsVerified = require('./utils/auth');
 
 module.exports = routes = (app) => {
@@ -53,13 +54,14 @@ module.exports = routes = (app) => {
     //         ctx.body = { code: 0, message: '来者何人！' }
     //         return false;
     //     };
-        
+
     //     return next();
     // });
 
     router.use('/api/articles', article.routes(), article.allowedMethods());
     router.use('/api/categories', category.routes(), category.allowedMethods());
     router.use('/api/tags', tag.routes(), tag.allowedMethods());
+    router.use('/api/upload', upload.routes(), upload.allowedMethods());
 
     app.use(router.routes()).use(router.allowedMethods());
 };
