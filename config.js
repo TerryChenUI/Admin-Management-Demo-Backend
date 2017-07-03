@@ -3,5 +3,6 @@ module.exports = {
     dbConnection: 'mongodb://localhost:27017/koaServer',
     prefixUrl: '/api/',
     defaultPassword: 'admin',
-    jwtTokenSecret: 'nodepress',
+    jwtTokenSecret: 'koa-server',
+    thumbPath: 'upload/thumb'
 };

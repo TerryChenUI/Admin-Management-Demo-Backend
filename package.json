@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/TerryChenUI/koa-sever#readme",
   "dependencies": {
+    "busboy": "^0.2.14",
     "crypto": "0.0.3",
     "jsonwebtoken": "^7.4.1",
     "kcors": "^2.2.1",
