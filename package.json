@@ -20,6 +20,7 @@
   "dependencies": {
     "busboy": "^0.2.14",
     "crypto": "0.0.3",
+    "gm": "^1.23.0",
     "jsonwebtoken": "^7.4.1",
     "kcors": "^2.2.1",
     "koa": "^2.2.0",

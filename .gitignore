@@ -1,8 +1,8 @@
 # Project folders
 
-# 
-
+# Folder
 node_modules/
+public/
 
 # Tool
 .idea/
