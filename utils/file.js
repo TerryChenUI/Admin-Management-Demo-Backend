@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 const Busboy = require('busboy');
-const { thumbPath } = require('../config');
+const { protocol } = require('../config');
 
 /**
  * 同步创建文件目录
@@ -34,7 +34,7 @@ function getSuffixName(fileName) {
 /**
  * 上传文件
  * @param  {object} ctx     koa上下文
- * @param  {object} options 文件上传参数 fileType文件类型， path文件存放路径
+ * @param  {object} options 文件上传参数 文件夹名称， path文件存放路径
  * @return {promise}         
  */
 function uploadFile(ctx, options) {
@@ -42,54 +42,42 @@ function uploadFile(ctx, options) {
   const res = ctx.res;
   const busboy = new Busboy({ headers: req.headers });
 
-  // 获取类型
-  const fileType = options.fileType || 'common';
-  const filePath = path.join(options.path, fileType);
+  const { filePath, urlPath } = options;
   const mkdirResult = mkdirsSync(filePath);
   const host = req.headers.host;
 
   return new Promise((resolve, reject) => {
-    // console.log('文件上传中...');
     const result = {
       success: false,
       formData: {}
     };
 
-    // 解析请求文件事件
     busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
       const fileName = Math.random().toString(16).substr(2) + '.' + getSuffixName(filename);
-      const _uploadFilePath = path.join(filePath, fileName);
-      const saveTo = path.join(_uploadFilePath);
+      const savePath = path.join(filePath, fileName);
 
-      // 文件保存到制定路径
-      file.pipe(fs.createWriteStream(saveTo));
+      file.pipe(fs.createWriteStream(savePath));
 
-      // 文件写入事件结束
       file.on('end', function () {
         result.success = true;
         result.fileName = fileName;
-        result.filePath = path.join(thumbPath, fileName);
-        result.fileUrl = path.join(host, thumbPath, fileName)
+        result.filePath = path.join(urlPath, fileName);
+        result.urlPath = `${protocol}://${host}/${urlPath}/${fileName}`;
         result.message = '文件上传成功';
-        // console.log('文件上传成功！');
       })
     })
 
     // 解析表单中其他字段信息
     busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-      console.log('表单字段数据 [' + fieldname + ']: value: ' + inspect(val));
+      // console.log('表单字段数据 [' + fieldname + ']: value: ' + inspect(val));
       result.formData[fieldname] = inspect(val);
     });
 
-    // 解析结束事件
     busboy.on('finish', function () {
-      // console.log('文件上传结束');
       resolve(result);
     })
 
-    // 解析错误事件
     busboy.on('error', function (err) {
-      // console.log('文件上传出错');
       reject(result);
     })
 
@@ -98,10 +86,13 @@ function uploadFile(ctx, options) {
 
 }
 
+/**
+ * 删除文件
+ * @param {*} filePath 
+ */
 function deleteFile(filePath) {
   return fs.unlinkSync(filePath);
 }
-
 
 module.exports = {
   uploadFile,

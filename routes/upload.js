@@ -2,31 +2,29 @@ const router = require('koa-router')();
 const path = require('path');
 const { handleSuccess, handleError } = require('../utils/handle');
 const { uploadFile, deleteFile } = require('../utils/file');
+const { contentPath, thumbPath } = require('../config');
 
 router
   .post('/', async (ctx, next) => {
-    // try {
-      const uploadPath = path.join(__dirname, '..', 'public/upload');
+    try {
+      const uploadPath = path.join(__dirname, '..', 'public', contentPath);
       const result = await uploadFile(ctx, {
-        fileType: 'content',
-        path: uploadPath
+        urlPath: contentPath,
+        filePath: uploadPath
       });
-      const data = {
-        link: result.filePath
-      }
-      handleSuccess({ ctx, result: data, message: '上传成功' });
-    // }
-    // catch (error) {
-    //   ctx.status = 500;
-    //   handleError({ ctx, error, message: '上传失败' });
-    // }
+      handleSuccess({ ctx, result, message: '上传成功' });
+    }
+    catch (error) {
+      ctx.status = 500;
+      handleError({ ctx, error, message: '上传失败' });
+    }
   })
   .post('/thumb', async (ctx, next) => {
     try {
-      const uploadPath = path.join(__dirname, '..', 'public/upload');
+      const uploadPath = path.join(__dirname, '..', 'public', thumbPath);
       const result = await uploadFile(ctx, {
-        fileType: 'thumb',
-        path: uploadPath
+        urlPath: thumbPath,
+        filePath: uploadPath
       });
       handleSuccess({ ctx, result, message: '上传成功' });
     }
